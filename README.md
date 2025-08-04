@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Full-Stack E-Commerce App
 
-## Getting Started
+This is a full-stack e-commerce application I built from scratch as part of my learning journey to master modern web development. The goal of this project was to deeply understand how all layers of a modern web app fit together from the frontend interface to backend logic, data management, and deployment.
 
-First, run the development server:
+## Project Objectives
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Build a feature-rich e-commerce application using **React** and **Next.js**
+- Learn how to implement AI-powered search with **Algolia**
+- Design accessible and visually appealing interfaces using **shadcn/ui**
+- Add smooth, user-friendly animations with **Framer Motion**
+- Handle image uploads and retrieval efficiently using **Uploadthing**
+- Set up a scalable backend using **PostgreSQL** and **Drizzle ORM**
+- Build intuitive and reliable forms with **React Hook Form**
+- Manage both client and server state using **Zustand** and **React Query**
+- Utilize serverless functions for backend logic and scalability
+- Integrate **Stripe** for secure and reliable payment processing
+- Learn how to deploy and configure a full-stack application for production
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Frontend:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- React
+- Next.js
+- Tailwind CSS
+- shadcn/ui
+- Framer Motion
 
-## Learn More
+**Backend:**
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js API Routes / Serverless Functions
+- PostgreSQL
+- Drizzle ORM
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**State Management:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Zustand
+- React Query
 
-## Deploy on Vercel
+**Additional Tools:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Uploadthing (image storage)
+- Algolia (search)
+- Stripe (payments)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Setup Instructions
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/asifazimi/sprout-scribble.git
+   cd sprout-scribble
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory and add your configuration values (e.g., Algolia keys, Stripe keys, database URL).
+
+4. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. For deployment, you can use platforms like **Vercel** or **Netlify**.
+
+## What I Learned
+
+This project gave me hands-on experience with the modern web development stack. I now have a much deeper understanding of full-stack architecture, real-world application structure, performance optimization, and production deployment. It also taught me how to work with third-party tools like Algolia, Stripe, and image hosting services, which are common in industry-grade applications.
