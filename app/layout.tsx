@@ -28,17 +28,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="flex justify-around bg-blue-400">
-          <Link className="hover:underline" href="/">
-            Home
-          </Link>
-          <Link href="/about" className="hover:underline">
-            About
-          </Link>
-          <Link href="/preferences" className="hover:underline">
-            Preference
-          </Link>
-        </nav>
         {children}
       </body>
     </html>
