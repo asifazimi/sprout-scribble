@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/server";
-import { posts } from "@/server/schema";
 
 export type FormState = {
   success: string | null;
