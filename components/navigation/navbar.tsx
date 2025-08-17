@@ -3,6 +3,7 @@ import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import UserButton from "./user-button";
+import Logo from "./logo";
 
 const Navbar = async () => {
   const session = await auth();
@@ -11,7 +12,12 @@ const Navbar = async () => {
     <header className="py-8">
       <nav>
         <ul className="flex justify-between">
-          <li>logo</li>
+          <li>
+            {" "}
+            <Link href="/">
+              <Logo />
+            </Link>
+          </li>
 
           {!session ? (
             <li>
