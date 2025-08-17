@@ -8,7 +8,7 @@ const Navbar = async () => {
   const session = await auth();
   const user = session?.user;
   return (
-    <header className="bg-slate-500 p-4">
+    <header className="py-8">
       <nav>
         <ul className="flex justify-between">
           <li>logo</li>

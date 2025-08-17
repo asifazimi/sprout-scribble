@@ -8,9 +8,7 @@ const LoginForm = () => {
       showSocials
       backButtonLabel="Create a new Account"
     >
-      <div>
-        <h1>hey</h1>
-      </div>
+      <div></div>
     </AuthCard>
   );
 };
