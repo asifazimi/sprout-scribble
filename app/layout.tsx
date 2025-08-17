@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sprout-brizzle",
+  title: "Sprout-scribble",
   description: "A full-stack e-commerice application built with Next.js",
 };
 
