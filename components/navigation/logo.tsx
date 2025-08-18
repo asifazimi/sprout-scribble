@@ -2,7 +2,7 @@ const Logo = () => {
   return (
     <svg
       width="100"
-      height="89"
+      height="40"
       viewBox="0 0 212 89"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
