@@ -22,8 +22,8 @@ const Navbar = async () => {
           {!session ? (
             <li>
               <Button asChild>
-                <Link href="auth/login">
-                  <LogIn size={10} />
+                <Link href="auth/login" className="flex items-center gap-2">
+                  <LogIn size={20} />
                   <span>Sign in</span>
                 </Link>
               </Button>
