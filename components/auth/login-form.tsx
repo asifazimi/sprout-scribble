@@ -21,6 +21,8 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { AuthCard } from "./auth-card";
+import FormError from "./form-error";
+import FormSuccess from "./form-success";
 
 const LoginForm = () => {
   const form = useForm({
@@ -33,11 +35,14 @@ const LoginForm = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   // next-safe-action hook
   const { status, execute } = useAction(emailSignIn, {
-    onSuccess(data) {
-      console.log(data);
+    onSuccess(result) {
+      const data = result.data;
+      if (data?.error) setError(data.error);
+      if (data?.success) setSuccess(data.success);
     },
   });
 
@@ -95,6 +100,10 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+
+            <FormSuccess message={success} />
+            <FormError message={error} />
+
             {/* forget password button */}
             <Button size={"sm"} variant={"link"} asChild>
               <Link href="/auth/reset">Forgot password?</Link>

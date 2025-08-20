@@ -3,13 +3,23 @@
 import crypto from "crypto";
 import { eq } from "drizzle-orm";
 import { db } from "..";
-import { emailTokens } from "../schema";
+import { emailTokens, users } from "../schema";
 
 const getVerficationTokenByEmail = async (email: string) => {
   try {
-    // Compare against the email column, not the token column
     const verificationToken = await db.query.emailTokens.findFirst({
       where: eq(emailTokens.email, email),
+    });
+    return verificationToken;
+  } catch {
+    return null;
+  }
+};
+
+const getVerificationTokenByToken = async (token: string) => {
+  try {
+    const verificationToken = await db.query.emailTokens.findFirst({
+      where: eq(emailTokens.token, token),
     });
     return verificationToken;
   } catch {
@@ -43,3 +53,27 @@ const generateEmailVerificationToken = async (email: string) => {
 };
 
 export default generateEmailVerificationToken;
+
+// Email verification
+
+export const newVerification = async (token: string) => {
+  const existingToken = await getVerificationTokenByToken(token);
+  if (!existingToken) return { error: "Token not found!" };
+
+  const hasExpired = new Date(existingToken.expires) < new Date();
+
+  if (hasExpired) return { error: "Token has expired!" };
+
+  const existingUser = await db.query.users.findFirst({
+    where: eq(users.email, existingToken.email),
+  });
+  if (!existingUser) return { error: "User not found!" };
+
+  await db.update(users).set({
+    emailVerified: new Date(),
+    email: existingToken.email,
+  });
+
+  await db.delete(emailTokens).where(eq(emailTokens.id, existingToken.id));
+  return { success: "Email verified!" };
+};
