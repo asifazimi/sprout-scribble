@@ -1,16 +1,18 @@
 "use server";
 
+import crypto from "crypto";
 import { eq } from "drizzle-orm";
 import { db } from "..";
 import { emailTokens } from "../schema";
 
 const getVerficationTokenByEmail = async (email: string) => {
   try {
+    // Compare against the email column, not the token column
     const verificationToken = await db.query.emailTokens.findFirst({
-      where: eq(emailTokens.token, email),
+      where: eq(emailTokens.email, email),
     });
     return verificationToken;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -26,11 +28,17 @@ const generateEmailVerificationToken = async (email: string) => {
     await db.delete(emailTokens).where(eq(emailTokens.id, existingToken.id));
   }
 
-  const verificationToken = await db.insert(emailTokens).values({
-    email,
-    token,
-    expires,
-  });
+  // Return the inserted row (first element) so callers can access .token and .email
+  const inserted = await db
+    .insert(emailTokens)
+    .values({
+      email,
+      token,
+      expires,
+    })
+    .returning();
+
+  const [verificationToken] = inserted;
   return verificationToken;
 };
 

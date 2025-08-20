@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "..";
 import { users } from "../schema";
 import generateEmailVerificationToken from "./tokens";
+import sendVerificationEmail from "./email";
 
 export const emailRegister = actionClient
   .inputSchema(RegisterSchema)
@@ -22,7 +23,11 @@ export const emailRegister = actionClient
     if (existingUser) {
       if (!existingUser.emailVerified) {
         const verificationToken = await generateEmailVerificationToken(email);
-        // await sendVerificationEmail(email, verificationToken);
+        await sendVerificationEmail(
+          verificationToken.email,
+          verificationToken.token
+        );
+
         return {
           success: "Verification email resent!",
           token: verificationToken,
@@ -32,14 +37,21 @@ export const emailRegister = actionClient
     }
 
     // 2. When the user does not have an account then we should register it
-    await db.insert(users).values({
-      name,
-      email,
-      password: hashedPassword,
-    });
+    await db
+      .insert(users)
+      .values({
+        name,
+        email,
+        password: hashedPassword,
+      })
+      .returning();
 
     const verificationToken = await generateEmailVerificationToken(email);
-    // await sendVerificationToken(verificationToken, email);
+
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
 
     return { success: "Verification email sent!" };
   });

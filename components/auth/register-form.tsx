@@ -21,6 +21,8 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { AuthCard } from "./auth-card";
+import FormSuccess from "./form-success";
+import FormError from "./form-error";
 
 const RegisterForm = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -33,11 +35,14 @@ const RegisterForm = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   // next-safe-action hook
   const { status, execute } = useAction(emailRegister, {
-    onSuccess(data) {
-      console.log(data);
+    onSuccess(result) {
+      const data = result.data;
+      if (data.error) setError(data.error);
+      if (data.success) setSuccess(data.success);
     },
   });
 
@@ -110,6 +115,9 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
+
+            <FormSuccess message={success} />
+            <FormError message={error} />
 
             {/* forget password button */}
             <Button size={"sm"} variant={"link"} asChild>
