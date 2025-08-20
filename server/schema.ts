@@ -1,5 +1,7 @@
 import {
+  boolean,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
@@ -7,20 +9,26 @@ import {
 } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { createId } from "@paralleldrive/cuid2";
 
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
 const pool = postgres(connectionString, { max: 1 });
 
 export const db = drizzle(pool);
 
+export const RoleEnum = pgEnum("roles", ["user", "admin"]);
+
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
+  password: text("password"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  twoFactorEnabled: boolean("twoFactorEnabled").notNull().default(false),
+  role: RoleEnum("role").notNull().default("user"),
 });
 
 export const accounts = pgTable(
@@ -44,6 +52,25 @@ export const accounts = pgTable(
     {
       compoundKey: primaryKey({
         columns: [account.provider, account.providerAccountId],
+      }),
+    },
+  ]
+);
+
+export const emailTokens = pgTable(
+  "email_tokens",
+  {
+    id: text("id")
+      .notNull()
+      .$defaultFn(() => createId()),
+    token: text("token").notNull(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+    email: text("email").notNull(),
+  },
+  (verificationToken) => [
+    {
+      compositePk: primaryKey({
+        columns: [verificationToken.id, verificationToken.token],
       }),
     },
   ]

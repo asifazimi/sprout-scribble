@@ -2,12 +2,13 @@ import { auth } from "@/server/auth";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import UserButton from "./user-button";
 import Logo from "./logo";
+import UserButton from "./user-button";
 
 const Navbar = async () => {
   const session = await auth();
   const user = session?.user;
+
   return (
     <header className="py-8">
       <nav>
@@ -22,9 +23,9 @@ const Navbar = async () => {
           {!session ? (
             <li>
               <Button asChild>
-                <Link href="auth/login" className="flex items-center gap-2">
+                <Link href="/auth/login" className="flex items-center gap-2">
                   <LogIn size={20} />
-                  <span>Sign in</span>
+                  <span>Login </span>
                 </Link>
               </Button>
             </li>

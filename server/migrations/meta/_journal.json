@@ -15,6 +15,27 @@
       "when": 1754675850110,
       "tag": "0001_icy_blob",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755515029829,
+      "tag": "0002_magenta_black_bolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1755586337274,
+      "tag": "0003_opposite_synch",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755604360152,
+      "tag": "0004_grey_hardball",
+      "breakpoints": true
     }
   ]
 }
