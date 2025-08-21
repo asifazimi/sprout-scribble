@@ -10,6 +10,7 @@ import {
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { createId } from "@paralleldrive/cuid2";
+import { email } from "zod";
 
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
 const pool = postgres(connectionString, { max: 1 });
@@ -58,6 +59,26 @@ export const accounts = pgTable(
 );
 
 export const emailTokens = pgTable("email_tokens", {
+  id: text("id")
+    .notNull()
+    .$defaultFn(() => createId())
+    .primaryKey(),
+  token: text("token").notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+  email: text("email").notNull(),
+});
+
+export const resetPasswordToken = pgTable("reset_password_token", {
+  id: text("id")
+    .notNull()
+    .$defaultFn(() => createId())
+    .primaryKey(),
+  token: text("token").notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+  email: text("email").notNull(),
+});
+
+export const twoFactorTokens = pgTable("two_factor_tokens", {
   id: text("id")
     .notNull()
     .$defaultFn(() => createId())

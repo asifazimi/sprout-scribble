@@ -3,7 +3,8 @@
 import crypto from "crypto";
 import { eq } from "drizzle-orm";
 import { db } from "..";
-import { emailTokens, users } from "../schema";
+import { emailTokens, resetPasswordToken, users } from "../schema";
+import { success } from "zod";
 
 const getVerficationTokenByEmail = async (email: string) => {
   try {
@@ -16,7 +17,7 @@ const getVerficationTokenByEmail = async (email: string) => {
   }
 };
 
-const getVerificationTokenByToken = async (token: string) => {
+export const getVerificationTokenByToken = async (token: string) => {
   try {
     const verificationToken = await db.query.emailTokens.findFirst({
       where: eq(emailTokens.token, token),
@@ -55,7 +56,6 @@ const generateEmailVerificationToken = async (email: string) => {
 export default generateEmailVerificationToken;
 
 // Email verification
-
 export const newVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token);
   if (!existingToken) return { error: "Token not found!" };
@@ -76,4 +76,54 @@ export const newVerification = async (token: string) => {
 
   await db.delete(emailTokens).where(eq(emailTokens.id, existingToken.id));
   return { success: "Email verified!" };
+};
+
+export const getPasswordResetTokenByEmail = async (token: string) => {
+  try {
+    const passwordResetToken = await db.query.resetPasswordToken.findFirst({
+      where: eq(resetPasswordToken.email, token),
+    });
+    return passwordResetToken;
+  } catch {
+    return null;
+  }
+};
+
+export const generatePasswordResetToken = async (email: string) => {
+  try {
+    const token = crypto.randomUUID();
+
+    const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+    const existingToken = await getPasswordResetTokenByEmail(email);
+    if (existingToken) {
+      await db
+        .delete(resetPasswordToken)
+        .where(eq(resetPasswordToken.id, existingToken.id));
+    }
+
+    const passwordResetToken = await db
+      .insert(resetPasswordToken)
+      .values({
+        email,
+        token,
+        expires,
+      })
+      .returning();
+
+    return passwordResetToken;
+  } catch {
+    return null;
+  }
+};
+
+export const getPasswordResetTokenByToken = async (token: string) => {
+  try {
+    const passwordResetToken = await db.query.resetPasswordToken.findFirst({
+      where: eq(resetPasswordToken.token, token),
+    });
+    return passwordResetToken;
+  } catch {
+    return null;
+  }
 };

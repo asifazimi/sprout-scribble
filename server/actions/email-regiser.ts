@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "..";
 import { users } from "../schema";
 import generateEmailVerificationToken from "./tokens";
-import sendVerificationEmail from "./email";
+import { sendVerificationEmail } from "./email";
 
 export const emailRegister = actionClient
   .inputSchema(RegisterSchema)
