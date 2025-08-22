@@ -15,7 +15,7 @@ const Navbar = async () => {
         <ul className="flex justify-between items-center">
           <li>
             {" "}
-            <Link href="/">
+            <Link href="/" aria-label="sprout-scribble logo">
               <Logo />
             </Link>
           </li>

@@ -24,7 +24,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
-    // To give authorization for the user who logins
     CredentialsProvider({
       authorize: async (credentials) => {
         const validateFileds = LoginSchema.safeParse(credentials);

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { newPassword } from "@/server/actions/new-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -22,7 +23,6 @@ import { Input } from "../ui/input";
 import { AuthCard } from "./auth-card";
 import FormError from "./form-error";
 import FormSuccess from "./form-success";
-import { useSearchParams } from "next/navigation";
 
 const NewPasswordForm = () => {
   const form = useForm<z.infer<typeof NewPasswordSchema>>({

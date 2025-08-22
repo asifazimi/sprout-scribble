@@ -5,8 +5,8 @@ import { actionClient } from "@/lib/safe-action";
 import { eq } from "drizzle-orm";
 import { db } from "..";
 import { users } from "../schema";
-import { generatePasswordResetToken } from "./tokens";
 import { sendPasswordResetEmail } from "./email";
+import { generatePasswordResetToken } from "./tokens";
 
 export const reset = actionClient
   .inputSchema(ResetSchema)
