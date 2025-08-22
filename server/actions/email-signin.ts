@@ -33,7 +33,7 @@ export const emailSignIn = actionClient
           verificationToken.token
         );
 
-        return { success: "Verification email sent!" };
+        return { success: "Check your email for the verification link." };
       }
 
       await signIn("credentials", {

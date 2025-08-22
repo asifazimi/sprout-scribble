@@ -24,7 +24,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   }
 
   if (data) {
-    return { success: "Verification email sent successfully." };
+    return { success: "Check your email for the verification link." };
   }
 };
 
@@ -46,6 +46,6 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   }
 
   if (data) {
-    return { success: "Password reset email sent successfully." };
+    return { success: "Check your email for the password reset link." };
   }
 };

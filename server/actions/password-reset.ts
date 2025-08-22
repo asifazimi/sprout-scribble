@@ -29,5 +29,7 @@ export const reset = actionClient
       passwordResetToken[0].token
     );
 
-    return { success: "Reset email sent successfully." };
+    return {
+      success: "Check your email for the reset link.",
+    };
   });
