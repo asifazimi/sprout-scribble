@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import {
   boolean,
   integer,
@@ -9,8 +10,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { createId } from "@paralleldrive/cuid2";
-import { email } from "zod";
 
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
 const pool = postgres(connectionString, { max: 1 });

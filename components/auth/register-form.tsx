@@ -46,6 +46,7 @@ const RegisterForm = () => {
     },
   });
 
+  //   We need to define a server action to create the user registeration form & submit the it
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     execute(values);
   };

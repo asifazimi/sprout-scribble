@@ -16,10 +16,12 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Switch } from "../ui/switch";
+import { useRouter } from "next/navigation";
 
 const UserButton = ({ user }: Session) => {
   const { theme, setTheme } = useTheme();
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
   const setSwitchState = () => {
     switch (theme) {
       case "dark":
@@ -78,7 +80,10 @@ const UserButton = ({ user }: Session) => {
           </div>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className=" group py-2 font-medium cursor-pointer transition-all duration-500 ease-in-out">
+          <DropdownMenuItem
+            className=" group py-2 font-medium cursor-pointer"
+            onClick={() => router.push("/dashboard/orders")}
+          >
             {" "}
             <TruckIcon
               size={14}
@@ -86,7 +91,10 @@ const UserButton = ({ user }: Session) => {
             />
             My orders
           </DropdownMenuItem>
-          <DropdownMenuItem className="py-2 font-medium cursor-pointer transition-all duration-500 group ease-in-out">
+          <DropdownMenuItem
+            onClick={() => router.push("/dashboard/settings")}
+            className="py-2 font-medium cursor-pointer group ease-in-out"
+          >
             <Settings
               size={14}
               className="mr-2 group-hover:rotate-180 transition-all duration-300 ease-in-out"

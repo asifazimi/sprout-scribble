@@ -46,6 +46,7 @@ const LoginForm = () => {
     },
   });
 
+  //   We need to define a server action to update the login info & submit the form
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     execute(values);
   };
