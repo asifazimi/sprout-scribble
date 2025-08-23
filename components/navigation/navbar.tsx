@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Logo from "./logo";
 import UserButton from "./user-button";
+import { Session } from "next-auth";
 
 const Navbar = async () => {
   const session = await auth();
@@ -31,7 +32,10 @@ const Navbar = async () => {
             </li>
           ) : (
             <li>
-              <UserButton expires={session?.expires ?? ""} user={user} />{" "}
+              <UserButton
+                expires={session?.expires ?? ""}
+                user={session.user}
+              />{" "}
               {/* It is like the login button */}
             </li>
           )}
