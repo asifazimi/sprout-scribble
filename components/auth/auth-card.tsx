@@ -16,7 +16,7 @@ export const AuthCard = ({
   showSocials,
 }: CardWrapperProps) => {
   return (
-    <Card>
+    <Card className="max-w-svh w-full mx-auto">
       <CardHeader>{cardTitle}</CardHeader>
       <CardContent>{children}</CardContent>
       {showSocials && (
