@@ -4,7 +4,6 @@ import crypto from "crypto";
 import { eq } from "drizzle-orm";
 import { db } from "..";
 import { emailTokens, resetPasswordToken, users } from "../schema";
-import { success } from "zod";
 
 const getVerficationTokenByEmail = async (email: string) => {
   try {

@@ -44,7 +44,6 @@ export const emailSignIn = actionClient
 
       return { success: email };
     } catch (error) {
-      console.log(error);
       if (error instanceof AuthError) {
         switch (error.type) {
           case "AccessDenied":

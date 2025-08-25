@@ -15,7 +15,7 @@ export const SettingsSchema = z
   })
   .refine(
     (data) => {
-      if (data.password && data.newPassword) {
+      if (data.password && !data.newPassword) {
         return false;
       }
       return true;

@@ -121,13 +121,13 @@ const RegisterForm = () => {
             <FormError message={error} />
 
             {/* forget password button */}
-            <Button size={"sm"} variant={"link"} asChild>
+            <Button size={"sm"} variant={"link"} asChild className="px-0">
               <Link href="/auth/reset">Forgot password?</Link>
             </Button>
           </div>
           <Button
             className={cn(
-              "w-full",
+              "w-full my-4",
               status === "executing" ? "animate-pulse" : ""
             )}
             type="submit"

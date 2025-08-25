@@ -21,7 +21,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { SettingsSchema } from "@/entities/settings-schema";
-import { emailSignIn } from "@/server/actions/email-signin";
 import { settings } from "@/server/actions/settings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "next-auth";
@@ -29,28 +28,27 @@ import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z from "zod";
+import z, { file } from "zod";
 
 type SessionForm = {
   session: Session;
 };
 
 const SettingsCard = ({ session }: SessionForm) => {
-  console.log(session.user);
-
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
-      name: session.user?.name || "",
+      name: session.user?.name || undefined,
       password: undefined,
       newPassword: undefined,
-      email: session.user?.email || "",
-      isTwoFactorEnabled: session.user?.isTwoFactorEnabled || false,
+      email: session.user?.email || undefined,
+      image: session.user?.image || undefined,
+      isTwoFactorEnabled: session.user?.isTwoFactorEnabled || undefined,
     },
   });
 
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
   const [avatarUploading, setAvatarUploading] = useState(false);
 
   // next-safe-action hook
@@ -58,12 +56,14 @@ const SettingsCard = ({ session }: SessionForm) => {
     onSuccess(result) {
       const data = result.data;
       if (data?.error) setError(data.error);
+      if (data?.success) setSuccess(data.success);
     },
   });
 
   //   We need to define a server action to update the user settings & submit the form
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     execute(values);
+    console.log(values);
   };
 
   return (
@@ -155,7 +155,7 @@ const SettingsCard = ({ session }: SessionForm) => {
                     <Input
                       placeholder="********"
                       type="password"
-                      disabled={status === "executing"}
+                      disabled={status === "executing" || session.user.isOAuth}
                       {...field}
                     />
                   </FormControl>
@@ -173,7 +173,7 @@ const SettingsCard = ({ session }: SessionForm) => {
                     <Input
                       placeholder="********"
                       type="password"
-                      disabled={status === "executing"}
+                      disabled={status === "executing" || session.user.isOAuth}
                       {...field}
                     />
                   </FormControl>
@@ -188,7 +188,13 @@ const SettingsCard = ({ session }: SessionForm) => {
                 <FormItem>
                   <FormLabel>Two Factor Authentication</FormLabel>
                   <FormControl>
-                    <Switch disabled={status === "executing"} />
+                    <Switch
+                      disabled={
+                        status === "executing" || session.user.isOAuth === true
+                      }
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
                   <FormDescription>
                     Enable two factor authentication for your account.
@@ -197,8 +203,8 @@ const SettingsCard = ({ session }: SessionForm) => {
                 </FormItem>
               )}
             />
-            <FormSuccess />
-            <FormError />
+            <FormSuccess message={success} />
+            <FormError message={error} />
             <Button
               type="submit"
               disabled={status === "executing" || avatarUploading}
