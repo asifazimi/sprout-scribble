@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "uploadthing/tw/v4";
+@source "../node_modules/@uploadthing/react/dist"; /** <-- depends on your project structure */
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -133,4 +136,9 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.541 0.281 293.009);
+}
+
+/* For the image uploading on uploadthing.com */
+[data-ut-element="button"][data-state="uploading"]::after {
+  @apply bg-primary/50;
 }

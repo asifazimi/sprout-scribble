@@ -1,4 +1,5 @@
 "use client";
+import { UploadButton } from "@/app/api/uploadthing/upload";
 import FormError from "@/components/auth/form-error";
 import FormSuccess from "@/components/auth/form-success";
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,7 @@ import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import z, { file } from "zod";
+import z from "zod";
 
 type SessionForm = {
   session: Session;
@@ -63,7 +64,6 @@ const SettingsCard = ({ session }: SessionForm) => {
   //   We need to define a server action to update the user settings & submit the form
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     execute(values);
-    console.log(values);
   };
 
   return (
@@ -133,6 +133,29 @@ const SettingsCard = ({ session }: SessionForm) => {
                         className="rounded-full"
                       />
                     )}
+                    <UploadButton
+                      className="scale-75 ut-button:ring-primary  ut-label:bg-red-50  ut-button:bg-primary/75  hover:ut-button:bg-primary/100 ut:button:transition-all ut-button:duration-500  ut-label:hidden ut-allowed-content:hidden"
+                      endpoint="avatarUploader"
+                      onUploadBegin={() => setAvatarUploading(true)}
+                      onUploadError={(error) => {
+                        form.setError("image", {
+                          type: "validate",
+                          message: error.message,
+                        });
+                        setAvatarUploading(false);
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue("image", res[0].url!);
+                        setAvatarUploading(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready) return <div>Change Avatar</div>;
+                          return <div>Uploading...</div>;
+                        },
+                      }}
+                    />
                   </div>
                   <FormControl>
                     <Input

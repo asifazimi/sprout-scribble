@@ -41,14 +41,14 @@ const UserButton = ({ user }: Session) => {
     return (
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
-          <Avatar className="w-7 h-7">
+          <Avatar className="w-7 h-7 cursor-pointer">
             {user.image && (
               <AvatarImage
                 src={user.image}
                 alt={user.name!}
                 width={32}
                 height={32}
-                className="rounded-full object-cover cursor-pointer"
+                className="rounded-full object-cover"
               />
             )}
             {!user.image && (
@@ -61,14 +61,14 @@ const UserButton = ({ user }: Session) => {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-60 p-6" align="end">
-          <div className="mb-4 p-4 flex flex-col gap-1 items-center bg-primary/10 rounded-lg w-full max-w-xs">
+          <div className="mb-4 p-4 flex flex-col gap-1 items-center bg-primary/10 rounded-lg w-full max-w-xs ">
             {user.image && (
               <Image
                 src={user.image}
                 alt={user.name!}
                 width="36"
                 height="36"
-                className="rounded-full"
+                className="rounded-full object-cover"
               />
             )}
             <p className="font-bold text-xs w-full text-center truncate ">
