@@ -135,7 +135,7 @@ const UserButton = ({ user }: Session) => {
           <DropdownMenuItem
             className="py-2 focus:bg-destructive/30
              group font-medium cursor-pointer transition-all duration-500"
-            onClick={() => signOut()}
+            onClick={() => signOut({ callbackUrl: "/" })}
           >
             <LogOut
               size={14}

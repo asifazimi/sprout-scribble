@@ -4,11 +4,9 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Logo from "./logo";
 import UserButton from "./user-button";
-import { Session } from "next-auth";
 
 const Navbar = async () => {
   const session = await auth();
-  const user = session?.user;
 
   return (
     <header className="py-8">
