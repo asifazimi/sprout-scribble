@@ -5,6 +5,8 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  real,
+  serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -86,4 +88,12 @@ export const twoFactorTokens = pgTable("two_factor_tokens", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
   email: text("email").notNull(),
   userID: text("userID").references(() => users.id, { onDelete: "cascade" }),
+});
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  created: timestamp("created").defaultNow(),
+  price: real("price").notNull(),
 });
