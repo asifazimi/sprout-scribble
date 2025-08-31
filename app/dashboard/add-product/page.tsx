@@ -4,7 +4,7 @@ import ProductForm from "./product-form";
 
 const AddProducts = async () => {
   const session = await auth();
-  if (session?.user.role !== "admin") return redirect("/dashboard/settings");
+  if (session?.user.role !== "admin") return redirect("/");
 
   return <ProductForm />;
 };

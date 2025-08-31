@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,15 +17,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ProductSchema, zProductSchema } from "@/entities/product-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DollarSign } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { ProductSchema } from "@/entities/product-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
 import Tiptap from "./tiptap";
+import { useAction } from "next-safe-action/hooks";
+import { createProduct } from "@/server/actions/create-product";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { getProduct } from "@/server/actions/get-product";
+import { useEffect } from "react";
 
 const ProductForm = () => {
-  const form = useForm({
+  const form = useForm<zProductSchema>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       title: "",
@@ -39,8 +44,55 @@ const ProductForm = () => {
   const searchParams = useSearchParams();
   const editMode = searchParams.get("id");
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const checkProduct = async (id: number) => {
+    if (editMode) {
+      const data = await getProduct(id);
+      if (data.error) {
+        toast.error(data.error);
+        router.push("/dashboard/products");
+        return;
+      }
+      if (data.success) {
+        const id = parseInt(editMode);
+        form.setValue("title", data.success.title);
+        form.setValue("description", data.success.description);
+        form.setValue("price", data.success.price);
+        form.setValue("id", id);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (editMode) {
+      checkProduct(parseInt(editMode));
+    }
+  }, []);
+
+  const { execute, status } = useAction(createProduct, {
+    onSuccess: (result) => {
+      const data = result.data;
+      if (data?.success) {
+        router.push("/dashboard/products");
+        toast.success(data.success);
+        router.refresh(); // to refresh the product list after creating a new product
+      }
+      if (data?.error) {
+        toast.error(data.error);
+      }
+    },
+
+    onExecute: () => {
+      if (editMode) {
+        toast.loading("Editing product...");
+      }
+      if (!editMode) {
+        toast.loading("Createing product...");
+      }
+    },
+  });
+
+  const onSubmit = async (values: zProductSchema) => {
+    execute(values);
   };
 
   return (
@@ -48,6 +100,7 @@ const ProductForm = () => {
       <CardHeader>
         <CardTitle>{editMode ? "Edit Product" : "Create Product"}</CardTitle>
         <CardDescription>
+          {" "}
           {editMode
             ? "Make changes to existing product"
             : "Add a brand new product"}

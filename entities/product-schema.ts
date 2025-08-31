@@ -13,4 +13,4 @@ export const ProductSchema = z.object({
     .positive({ message: "Price must be a positive number" }),
 });
 
-export type zProductSchema = z.infer<typeof ProductSchema>;
+export type zProductSchema = z.input<typeof ProductSchema>;
