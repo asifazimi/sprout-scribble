@@ -12,6 +12,11 @@ const Products = async () => {
   }
 
   const products = await db.query.products.findMany({
+    with: {
+      productVariants: {
+        with: { variantImages: true, variantTags: true },
+      },
+    },
     orderBy: (products, { desc }) => [desc(products.id)], // we want to make sure the products are displayed in order from the database
   });
   if (!products) throw new Error("No products found");
