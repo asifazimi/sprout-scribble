@@ -16,11 +16,24 @@ export const ourFileRouter = {
       // No authentication, allow all uploads
       return {};
     })
+
     .onUploadComplete(async ({ file }) => {
       // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete. File url:", file.ufsUrl);
       // Return a simple response
       return { success: true };
+    }),
+
+  // variant images uploader
+  variantUploader: f({
+    image: { maxFileCount: 10, maxFileSize: "4MB" },
+  })
+    .onUploadError(async ({ error }) => {
+      console.log(error);
+      console.log("errorrr");
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log(file);
     }),
 } satisfies FileRouter;
 

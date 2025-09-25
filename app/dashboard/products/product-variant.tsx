@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VariantSchema } from "@/entities/variants-schema";
 import z from "zod";
@@ -55,8 +55,6 @@ const ProductVariant = ({
   const [open, setOpen] = useState(false);
 
   function onSubmit(values: z.infer<typeof VariantSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -116,7 +114,7 @@ const ProductVariant = ({
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <InputTags {...field} />
+                    <InputTags {...field} onChange={(e) => field.onChange(e)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
