@@ -39,7 +39,7 @@ const UserButton = ({ user }: Session) => {
 
   if (user)
     return (
-      <DropdownMenu modal={false}>
+      <DropdownMenu>
         <DropdownMenuTrigger className="focus-visible:outline-none focus-visible:ring-0">
           <Avatar className="w-7 h-7 cursor-pointer focus-visible:outline-none focus-visible:ring-0">
             {user.image && (
