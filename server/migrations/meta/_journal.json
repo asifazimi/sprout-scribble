@@ -78,6 +78,13 @@
       "when": 1757075123961,
       "tag": "0010_moaning_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1759325536209,
+      "tag": "0011_broken_eternals",
+      "breakpoints": true
     }
   ]
 }
