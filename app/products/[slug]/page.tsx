@@ -1,3 +1,4 @@
+import AddCart from "@/components/cart/add-cart";
 import ProductPick from "@/components/products/product-pick";
 import ProductType from "@/components/products/product-type";
 import ProductShowcase from "@/components/products/product.showcase";
@@ -91,7 +92,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                 />
               ))}
             </div>
-            {/* <AddCart /> */}
+            <AddCart />
           </div>
         </section>
         <Reviews productID={variant?.productID ?? 0} />
