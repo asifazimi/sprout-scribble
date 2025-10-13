@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist } from "zustand/middleware"; // to persist the store in local storage
 
 export type Variant = {
   variantID: number;

@@ -15,7 +15,7 @@ import formatPrice from "@/lib/format-price";
 import Image from "next/image";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import Lottie from "lottie-react";
-import emptyCart from "@/public/empty-box.json";
+import emptyCart from "@/public/empty.json";
 import { createId } from "@paralleldrive/cuid2";
 import { Button } from "../ui/button";
 
