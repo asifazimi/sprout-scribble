@@ -42,7 +42,7 @@ const CartDrawer = () => {
           <CartMessage />
         </DrawerHeader>
         <CartProgress />
-        {/* to check the progress of the checkout for example wether the user is
+        {/* to check the progress of the checkout for example whether the user is
         on the payment section. */}
         <div className="overflow-auto p-4">
           {checkoutProgress === "cart-page" && <CartItems />}
