@@ -15,7 +15,7 @@ export const createPaymentIntent = actionClient
     if (!amount) return { error: "No Product to checkout" };
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
+      amount: Math.round(amount * 100), // amount in cents
       currency,
       automatic_payment_methods: {
         enabled: true,
