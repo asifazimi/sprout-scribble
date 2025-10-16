@@ -12,6 +12,9 @@ import { Button } from "../ui/button";
 // import { createOrder } from "@/server/actions/create-order";
 import { createPaymentIntent } from "@/server/actions/create-payment-intent";
 import { useRouter } from "next/navigation";
+import { createOrder } from "@/server/actions/create-order";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 
 export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
   const stripe = useStripe();
@@ -20,19 +23,21 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-  //   const { execute } = useAction(createOrder, {
-  //     onSuccess: (data) => {
-  //       if (data.error) {
-  //         toast.error(data.error);
-  //       }
-  //       if (data.success) {
-  //         setIsLoading(false);
-  //         toast.success(data.success);
-  //         setCheckoutProgress("confirmation-page");
-  //         clearCart();
-  //       }
-  //     },
-  //   });
+  const { execute } = useAction(createOrder, {
+    onSuccess: (result) => {
+      const data = result.data;
+
+      if (data.error) {
+        toast.error(data.error);
+      }
+      if (data.success) {
+        setIsLoading(false);
+        toast.success(data.success);
+        setCheckoutProgress("confirmation-page");
+        clearCart();
+      }
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,21 +83,19 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       if (error) {
         setErrorMessage(error.message!);
         setIsLoading(false);
-        console.log(error.message);
         return;
       } else {
-        console.log("Payment successful!");
         setIsLoading(false);
-        // execute({
-        //   status: "pending",
-        //   paymentIntentID: data.success.paymentIntentID,
-        //   total: totalPrice,
-        //   products: cart.map((item) => ({
-        //     productID: item.id,
-        //     variantID: item.variant.variantID,
-        //     quantity: item.variant.quantity,
-        //   })),
-        // });
+        execute({
+          status: "pending",
+          paymentIntentID: data.success.paymentIntentID,
+          total: totalPrice,
+          products: cart.map((item) => ({
+            productID: item.id,
+            variantID: item.variant.variantID,
+            quantity: item.variant.quantity,
+          })),
+        });
       }
     }
   };
