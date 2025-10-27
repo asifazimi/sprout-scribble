@@ -2,6 +2,15 @@
 
 This is a full-stack e-commerce application I built from scratch as part of my learning journey to master modern web development. The goal of this project was to deeply understand how all layers of a modern web app fit together from the frontend interface to backend logic, data management, and deployment.
 
+Website Trailer 
+
+
+Uploading video.mp4…
+
+
+
+
+
 ## Project Objectives
 
 - Build a feature-rich e-commerce application using **React** and **Next.js**
