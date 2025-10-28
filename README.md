@@ -5,10 +5,7 @@ This is a full-stack e-commerce application I built from scratch as part of my l
 Website Trailer 
 
 
-Uploading video.mp4…
-
-
-
+https://github.com/user-attachments/assets/94f4edf2-253f-4323-9c4d-b7201897d26e
 
 
 ## Project Objectives
